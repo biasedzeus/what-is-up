@@ -105,8 +105,14 @@ text-transform: uppercase;
 }
 
 .msgholder{
+  color: white;
   background-color: brown;
   height: 90vh;
   flex:10;
   overflow-y: auto;
+}
+
+.new-conv{
+  padding: 10px;
+  text-align: center;
 }

@@ -6,7 +6,36 @@ import ContactList from "../Components/ContactList";
 import Chats from "../Components/Chats";
 
 const HomePage = () => {
+
+
+
+  const currentUser = auth.currentUser;
+  const [contactList, setContactList] = useState([]);
+  const [selectedUser, SetSelectedUser] = useState([]);
   const [messages, setMessages] = useState([]);
+
+
+
+
+  function handleUserSelect(user) {
+    console.log("slectedUser", user);
+    SetSelectedUser(user);
+  }
+  console.log("selected user state", selectedUser);
+  useEffect(() => {
+    const userId = currentUser.uid;
+    const unsubscribe = onValue(
+      ref(database, "/users/"),
+      (snapshot) => {
+        const username = snapshot.val();
+        setContactList(username);
+      }
+      // {
+      //   onlyOnce: true,
+      // }
+    );
+    return () => unsubscribe();
+  }, [currentUser]);
 
   const dbRef = ref(database);
   get(child(dbRef, `messages/one/`))
@@ -21,7 +50,6 @@ const HomePage = () => {
       console.error(error);
     });
 
-
   function sendMessage(name, seen, message) {
     const msgRef = ref(database, "messages/");
     const newMsg = push(msgRef);
@@ -32,6 +60,10 @@ const HomePage = () => {
       timeStamp: new Date(),
     });
   }
+
+
+
+
   return (
     <div style={{ backgroundColor: "yellow", width: "100vw", height: "100vh" }}>
       <div className="flex logout">
@@ -39,17 +71,16 @@ const HomePage = () => {
           welcome back <span>{`@${auth.currentUser.displayName}`}</span>{" "}
         </h2>
         <div>
-        <LogOut />
-          
+          <LogOut />
         </div>
       </div>
 
       <div className="flex">
         <div class="left">
-          <ContactList />
+          <ContactList contactList={contactList} handleUserSelect={handleUserSelect} />
         </div>
         <div class="right">
-          <Chats/>
+          <Chats selectedUser={selectedUser}/>
         </div>
       </div>
     </div>
