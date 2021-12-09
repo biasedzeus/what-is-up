@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 
 
 
-const Chats = ({selectedUser}) => {
-    const[message,setMessage]  = useState('');
-    console.log('chats',selectedUser)
+const Chats = ({selectedUser,handleSendMessage,text,setText}) => {
     
     return (
         <div className="chat-container">
@@ -14,11 +12,16 @@ const Chats = ({selectedUser}) => {
           <h1>{selectedUser.username}</h1>:<h2 className='new-conv'>Start a new conversation</h2>
           
         }
+        
      
       </div>
       <div className="sendmsg-btn">
-      <input className="msg-input" type="text"/>
+      <input
+      onChange={e => setText(e.target.value)}
+       className="msg-input" 
+       type="text"/>
           <button
+          onClick={() =>handleSendMessage(text)}
            className="msg-send-btn">Send</button>
         </div>
       </div>
