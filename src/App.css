@@ -116,3 +116,27 @@ text-transform: uppercase;
   padding: 10px;
   text-align: center;
 }
+.sendmsg-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.msg-input{
+  width: 80%;
+  height: 70%;
+  border-radius:30px;
+  border:none;
+  font-size: 1.4rem;
+  
+
+}
+.sendmsg-btn button{
+  border:none;
+  padding: 20px 40px 20px 40px;
+  margin-left: 20px;
+  border-radius: 30px;
+}
+
+.msg-input:focus{
+  border: 1px solid red !important;
+}
