@@ -19,10 +19,11 @@ const Chats = ({selectedUser,handleSendMessage,text,setText}) => {
                     <input
                     onChange={e => setText(e.target.value)}
                     className="msg-input" 
+                    value={text}
                     type="text"/>
-                    
+
                     <button
-                    onClick={() =>handleSendMessage(text)}
+                    onClick={handleSendMessage}
                     className="msg-send-btn">Send</button>
             </div>
       </div>
@@ -30,4 +31,4 @@ const Chats = ({selectedUser,handleSendMessage,text,setText}) => {
     )
 }
 
-export default Chats
+export default Chats;

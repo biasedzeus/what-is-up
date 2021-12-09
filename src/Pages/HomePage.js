@@ -52,7 +52,7 @@ const HomePage = () => {
       console.error(error);
     });
 
-  async function handleSendMessage(text) {
+  async function handleSendMessage() {
     const loggedInUserId = currentUser.uid;
     const selectedUserId = selectedUser.uid;
     const primaryKey =
@@ -67,10 +67,8 @@ const HomePage = () => {
       from: loggedInUserId,
       to: selectedUserId,
       createdAt: serverTimestamp(),
-    }).then(
-    setText('')
-     
-    );
+    })
+    setText('');
 
   }
 
