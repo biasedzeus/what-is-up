@@ -9,13 +9,17 @@ import {
   equalTo,
   onValue,
 } from "firebase/database";
-import {RiRadioButtonLine} from 'react-icons/ri'
-import { IconContext } from "react-icons";
+
+import Contact from "./Contact";
 
 const ContactList = () => {
   const currentUser = auth.currentUser;
   const [ContactList, setContactList] = useState([]);
   //read data first
+
+  function handleUserSelect(user){
+console.log('slectedUser',user)
+  }
 
   useEffect(() => {
     const userId = currentUser.uid;
@@ -30,29 +34,18 @@ const ContactList = () => {
       // }
     );
   }, [currentUser]);
-
+                                                                                          
   console.log("CONtact List", ContactList);
 
   return (
     <div>
       <h1>Contact List</h1>
-      {Object.entries(ContactList).map(([id, column]) => {
+      {Object.entries(ContactList).map(([id, user]) => {
         console.log("id", id);
-        if (auth.currentUser.uid !== column.uid) {
+        if (auth.currentUser.uid !== user.uid) {
           return (
-          
-          <div class="contact-item-holder">
-            <h4>{column.username}</h4>
-            <span>{column.isOnline 
-            ? 
-            
-            <IconContext.Provider value={{color:'green',size:'1.2rem'}}><RiRadioButtonLine/></IconContext.Provider>
-            :<IconContext.Provider value={{color:'gray',size:'1.2rem'}}><RiRadioButtonLine/></IconContext.Provider>
-             
-            
-            }</span>
-           
-          </div>  );
+            <Contact key={id} id={id} user={user}  handleUserSelect={handleUserSelect}/>
+          );
         }
       })}
     </div>
