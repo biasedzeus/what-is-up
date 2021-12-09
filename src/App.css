@@ -218,3 +218,7 @@ background-color: cornflowerblue !important;
   padding: 2px 4px;
   border-radius: 10px;
 }
+.green-tick-icon{
+  color: green;
+  font-size: 1.4rem;
+}

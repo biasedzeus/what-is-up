@@ -81,18 +81,7 @@ const HomePage = () => {
     return () => unsubscribe();
   }, [currentUser]);
 
-  const dbRef = ref(database);
-  get(child(dbRef, `messages/one/`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log("message-data", snapshot.val());
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+
 
   async function handleSendMessage() {
     const loggedInUserId = currentUser.uid;
@@ -109,6 +98,7 @@ const HomePage = () => {
       from: loggedInUserId,
       to: selectedUserId,
       createdAt: serverTimestamp(),
+      unseen:true
     })
     setText('');
 
