@@ -1,17 +1,27 @@
 import React, { useState } from 'react'
+import Message from './Message';
 
 
 
-const Chats = ({selectedUser,handleSendMessage,text,setText}) => {
+const Chats = ({selectedUser,handleSendMessage,text,setText,messages}) => {
     
     return (
         <div className="chat-container">
             <div className="msgholder">
-                {selectedUser ? 
+               <div class="selectedUser-name">
+               {selectedUser ? 
                 !selectedUser.username?<h2 className='new-conv'>Start a new conversation</h2>:
                 <h1>{selectedUser.username}</h1>:<h2 className='new-conv'>Start a new conversation</h2>
                 
                 }
+               </div>
+               <div class="messages">
+                   {messages.length ? messages.map((msg,index) =>{
+                       return <Message key={index} msg={msg} i={index}/>
+
+                   }):'No messages'}
+                   
+               </div>
             </div>
 
             
