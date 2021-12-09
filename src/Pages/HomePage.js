@@ -9,6 +9,9 @@ import {
   child,
   push,
   serverTimestamp,
+  orderByChild,
+  query,
+  limitToLast
 } from "firebase/database";
 import ContactList from "../Components/ContactList";
 import Chats from "../Components/Chats";
@@ -22,9 +25,38 @@ const HomePage = () => {
 
   function handleUserSelect(user) {
     console.log("slectedUser", user);
+
     SetSelectedUser(user);
+
+    const selectedUserId = user.uid;
+    const loggedInUserId = currentUser.uid;
+
+    const primaryKey =  loggedInUserId > selectedUserId
+    ? `${loggedInUserId + selectedUserId}`
+    : `${selectedUserId + loggedInUserId}`;
+    
+    const MsgRefQuery = query(ref(database, 'messages/' + primaryKey)
+                        ,orderByChild("createdAt") ,limitToLast(50));
+
+    onValue(MsgRefQuery, (qSnapshot) =>{
+      let msges =[];
+      qSnapshot.forEach((msg) => {
+        msges.push(msg.val())
+      });
+      setMessages(msges);
+
+    })
+
   }
+
+
+
   console.log("selected user state", selectedUser);
+  console.log("downlaoded msges",messages)
+
+
+
+
   useEffect(() => {
     const unsubscribe = onValue(
       ref(database, "/users/"),
@@ -96,6 +128,7 @@ const HomePage = () => {
             handleSendMessage={handleSendMessage}
             text={text}
             setText={setText}
+            messages={messages}
           />
         </div>
       </div>
