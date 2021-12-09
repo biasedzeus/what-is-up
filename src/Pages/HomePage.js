@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react";
 import LogOut from "../Components/LogOut";
 import { auth, database } from "../firebase";
-import { set, ref, onValue, get, child, push } from "firebase/database";
+import {
+  set,
+  ref,
+  onValue,
+  get,
+  child,
+  push,
+  serverTimestamp,
+} from "firebase/database";
 import ContactList from "../Components/ContactList";
 import Chats from "../Components/Chats";
 
 const HomePage = () => {
-
-
-
   const currentUser = auth.currentUser;
   const [contactList, setContactList] = useState([]);
   const [selectedUser, SetSelectedUser] = useState([]);
+  const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
-
-
-
 
   function handleUserSelect(user) {
     console.log("slectedUser", user);
@@ -23,7 +26,6 @@ const HomePage = () => {
   }
   console.log("selected user state", selectedUser);
   useEffect(() => {
-    const userId = currentUser.uid;
     const unsubscribe = onValue(
       ref(database, "/users/"),
       (snapshot) => {
@@ -50,19 +52,27 @@ const HomePage = () => {
       console.error(error);
     });
 
-  function sendMessage(name, seen, message) {
-    const msgRef = ref(database, "messages/");
-    const newMsg = push(msgRef);
-    set(newMsg, {
-      message: message,
-      name: name,
-      seen: seen,
-      timeStamp: new Date(),
-    });
+  async function handleSendMessage(text) {
+    const loggedInUserId = currentUser.uid;
+    const selectedUserId = selectedUser.uid;
+    const primaryKey =
+      loggedInUserId > selectedUserId
+        ? `${loggedInUserId + selectedUserId}`
+        : `${selectedUserId + loggedInUserId}`;
+
+    const postListRef = ref(database, "messages/" + primaryKey);
+    const newPostRef = push(postListRef);
+    await set(newPostRef, {
+      textMsg: text,
+      from: loggedInUserId,
+      to: selectedUserId,
+      createdAt: serverTimestamp(),
+    }).then(
+    setText('')
+     
+    );
+
   }
-
-
-
 
   return (
     <div style={{ backgroundColor: "yellow", width: "100vw", height: "100vh" }}>
@@ -77,10 +87,18 @@ const HomePage = () => {
 
       <div className="flex">
         <div class="left">
-          <ContactList contactList={contactList} handleUserSelect={handleUserSelect} />
+          <ContactList
+            contactList={contactList}
+            handleUserSelect={handleUserSelect}
+          />
         </div>
         <div class="right">
-          <Chats selectedUser={selectedUser}/>
+          <Chats
+            selectedUser={selectedUser}
+            handleSendMessage={handleSendMessage}
+            text={text}
+            setText={setText}
+          />
         </div>
       </div>
     </div>
