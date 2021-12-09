@@ -2,9 +2,15 @@ import React from "react";
 import { auth } from "../firebase";
 import { GoogleAuthProvider, signInWithPopup,} from "@firebase/auth";
 import { database } from "../firebase";
-import { set, ref, serverTimestamp } from "@firebase/database";
+import { set, ref, serverTimestamp,update } from "@firebase/database";
 
 export const SignIn = () => {
+    
+  function updateOnlineStatus(userId) {
+    update(ref(database, "/users/" + userId), {
+      isOnline:true,
+    });
+  }
 
   function writeUserData(userId, name, email) {
     set(ref(database, "/users/" + userId), {
@@ -21,6 +27,7 @@ export const SignIn = () => {
       .then(({ user }) => {
         console.log("User::::>", user);
         writeUserData(user.uid, user.displayName, user.email);
+        updateOnlineStatus(user.uid)
       })
       .catch((error) => {
         console.log(error);
