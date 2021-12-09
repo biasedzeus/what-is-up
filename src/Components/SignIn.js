@@ -2,7 +2,7 @@ import React from "react";
 import { auth } from "../firebase";
 import { GoogleAuthProvider, signInWithPopup,} from "@firebase/auth";
 import { database } from "../firebase";
-import { set, ref } from "@firebase/database";
+import { set, ref, serverTimestamp } from "@firebase/database";
 
 export const SignIn = () => {
 
@@ -10,6 +10,8 @@ export const SignIn = () => {
     set(ref(database, "/users/" + userId), {
       username: name,
       email: email,
+      createdAt:serverTimestamp(),
+      isOnline:true,
     });
   }
 
