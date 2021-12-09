@@ -89,3 +89,24 @@ transition: 100ms ease-in-out;
 font-size: 1.2rem;
 text-transform: uppercase;
 }
+
+/* //Chats */
+
+.sendmsg-btn{
+  background-color: cadetblue;
+  width: 100%;
+  height:10vh;
+  display: block;
+  margin-bottom: 0;
+  flex:2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.msgholder{
+  background-color: brown;
+  height: 90vh;
+  flex:10;
+  overflow-y: auto;
+}

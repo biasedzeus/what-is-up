@@ -8,6 +8,7 @@ import {
   set,
   equalTo,
   onValue,
+  query,  
 } from "firebase/database";
 
 import Contact from "./Contact";
@@ -15,15 +16,17 @@ import Contact from "./Contact";
 const ContactList = () => {
   const currentUser = auth.currentUser;
   const [ContactList, setContactList] = useState([]);
+  const[selectedUser,SetSelectedUser] = useState([]);
   //read data first
 
   function handleUserSelect(user){
 console.log('slectedUser',user)
+SetSelectedUser(user)
   }
-
+  console.log("selected user state",selectedUser)
   useEffect(() => {
     const userId = currentUser.uid;
-    onValue(
+   const unsubscribe =  onValue(
       ref(database, "/users/"),
       (snapshot) => {
         const username = snapshot.val();
@@ -32,16 +35,24 @@ console.log('slectedUser',user)
       // {
       //   onlyOnce: true,
       // }
+
+     
     );
+     return(() =>unsubscribe())
   }, [currentUser]);
+
+
+
+  
+
+
                                                                                           
-  console.log("CONtact List", ContactList);
 
   return (
     <div>
       <h1>Contact List</h1>
       {Object.entries(ContactList).map(([id, user]) => {
-        console.log("id", id);
+       
         if (auth.currentUser.uid !== user.uid) {
           return (
             <Contact key={id} id={id} user={user}  handleUserSelect={handleUserSelect}/>

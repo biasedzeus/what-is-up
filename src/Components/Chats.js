@@ -2,24 +2,27 @@ import React, { useState } from 'react'
 
 
 
-const Chats = () => {
+const Chats = ({selectedUser}) => {
     const[message,setMessage]  = useState('');
 
-    function handleSendMessage (chatId,sender,reiever,message){
-
-    }
-
+    
     return (
         <div className="chat-container">
-      <div class="msgholder">
+      <div className="msgholder">
+          {selectedUser ?
+          <div>{selectedUser.name}</div>:
+          <h3>Start a conversation</h3>
+          
+        }
 
       </div>
-      <div class="sendmsg-btn"></div>
-          <input className="msg-input" type="text"/>
+      <div className="sendmsg-btn">
+      <input className="msg-input" type="text"/>
           <button
-          onClick={handleSendMessage}
            className="msg-send-btn">Send</button>
         </div>
+      </div>
+          
     )
 }
 
