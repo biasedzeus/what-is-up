@@ -1,12 +1,10 @@
 import React from "react";
 import { auth } from "../firebase";
-import { GoogleAuthProvider, signInWithPopup, getAuth } from "@firebase/auth";
+import { GoogleAuthProvider, signInWithPopup,} from "@firebase/auth";
 import { database } from "../firebase";
 import { set, ref } from "@firebase/database";
-import { useState } from "react/cjs/react.development";
 
-export const SignIn = ({ handleSignIn }) => {
-  const [userId, setUserId] = useState("");
+export const SignIn = () => {
 
   function writeUserData(userId, name, email) {
     set(ref(database, "/users/" + userId), {
@@ -15,9 +13,9 @@ export const SignIn = ({ handleSignIn }) => {
     });
   }
 
-  function handleSignIn() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+  async function handleSignIn() {
+     const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider)
       .then(({ user }) => {
         console.log("User::::>", user);
         writeUserData(user.uid, user.displayName, user.email);
@@ -29,7 +27,10 @@ export const SignIn = ({ handleSignIn }) => {
 
   return (
     <div>
-      <button onClick={handleSignIn}>Sign IN</button>
+      <button
+      className="sign-in btn"
+       onClick={handleSignIn}>
+         <h1>Sign IN</h1></button>
     </div>
   );
 };
