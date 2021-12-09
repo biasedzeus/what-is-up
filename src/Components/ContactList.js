@@ -2,7 +2,7 @@ import React from "react";
 import { auth } from "../firebase";
 import Contact from "./Contact";
 
-const ContactList = ({contactList,handleUserSelect}) => {
+const ContactList = ({contactList,handleUserSelect,selectedUser}) => {
 
   //read data first
 
@@ -17,6 +17,7 @@ const ContactList = ({contactList,handleUserSelect}) => {
               id={id}
               user={user}
               handleUserSelect={handleUserSelect}
+              selectedUser={selectedUser}
             />
           );
         }

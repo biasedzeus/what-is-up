@@ -11,7 +11,8 @@ import {
   serverTimestamp,
   orderByChild,
   query,
-  limitToLast
+  limitToLast,
+  update
 } from "firebase/database";
 import ContactList from "../Components/ContactList";
 import Chats from "../Components/Chats";
@@ -22,6 +23,7 @@ const HomePage = () => {
   const [selectedUser, SetSelectedUser] = useState([]);
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
+  const[lastMsgUserId,setLastMsgUserId] = useState('')
 
   function handleUserSelect(user) {
     console.log("slectedUser", user);
@@ -46,14 +48,22 @@ const HomePage = () => {
       setMessages(msges);
 
     })
+    const lastMsgRef =  ref(database,'lastMessage/' + primaryKey)
+     get(lastMsgRef).then(
+      (snapshot) =>{
+        setLastMsgUserId(snapshot.val().from)
+      }
+    )
+    if(lastMsgUserId !== currentUser.uid){
+       update(lastMsgRef,{
+        unread:false
+      })
+    }
+
+
+
 
   }
-
-
-
-  console.log("selected user state", selectedUser);
-  console.log("downlaoded msges",messages)
-
 
 
 
@@ -102,6 +112,17 @@ const HomePage = () => {
     })
     setText('');
 
+   const lastMsgRef =  ref(database,'lastMessage/' + primaryKey)
+   await set(lastMsgRef,{
+    textMsg: text,
+    from: loggedInUserId,
+    to: selectedUserId,
+    unread:true,
+   })
+
+   
+
+
   }
 
   return (
@@ -120,6 +141,7 @@ const HomePage = () => {
           <ContactList
             contactList={contactList}
             handleUserSelect={handleUserSelect}
+            selectedUser={selectedUser}
           />
         </div>
         <div class="right">
