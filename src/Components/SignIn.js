@@ -18,6 +18,7 @@ export const SignIn = () => {
       email: email,
       createdAt:serverTimestamp(),
       isOnline:true,
+      uid:userId
     });
   }
 
