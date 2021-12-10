@@ -8,14 +8,14 @@ const Chats = ({selectedUser,handleSendMessage,text,setText,messages}) => {
     return (
         <div className="chat-container">
             <div className="msgholder">
-               <div class="selectedUser-name">
+               <div className="selectedUser-name">
                {selectedUser ? 
                 !selectedUser.username?<h2 className='new-conv'>Start a new conversation</h2>:
                 <h1>{selectedUser.username}</h1>:<h2 className='new-conv'>Start a new conversation</h2>
                 
                 }
                </div>
-               <div class="messages">
+               <div className="messages">
                    {messages.length ? messages.map((msg,index) =>{
                        return <Message key={index} msg={msg} i={index}/>
 

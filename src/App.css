@@ -34,7 +34,7 @@
   background-color: darkgray;
 }
 .right{
-  background-color: gray;
+  background-color: black;
   flex:4;
   min-height: 100vh;
 
@@ -168,9 +168,7 @@ text-align: right;
 background-color: cornflowerblue !important;
 }
 
-.msg-container .me{
-  
-}
+
 
 .message_wrapper {
   margin-top: 5px;
@@ -218,7 +216,7 @@ background-color: cornflowerblue !important;
   padding: 2px 4px;
   border-radius: 10px;
 }
-.green-tick-icon{
+.react-green-icon{
   color: green;
   font-size: 1.4rem;
 }

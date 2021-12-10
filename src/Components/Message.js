@@ -13,7 +13,6 @@ const Message = ({msg,i}) => {
         
     }, [msg])
 
-    console.log("msggggg",msg.textMsg)
     return (
       <div
         className={`msg-wrapper ${
@@ -28,7 +27,7 @@ const Message = ({msg,i}) => {
           <Moment fromNow>{msg.createdAt}</Moment>
         </small>
         <span>
-        <IconContext.Provider value={{ className: 'react-icons' }}>
+        <IconContext.Provider value={{ className: `react-icons ${msg.unseen?'':'react-green-icon'}` }}>
         <TiTick/>
         </IconContext.Provider>
         </span>

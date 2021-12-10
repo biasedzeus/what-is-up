@@ -64,7 +64,7 @@ const Contact = ({handleUserSelect,user,id,selectedUser}) => {
           <strong>{data.from === loggedInUserId ? "Me:" : null}</strong>
           {`${data.textMsg}...`}
           <span>
-            <IconContext.Provider value={{ className: `react-icons ${data.unread ?'green-tick-icon':''}` }}>
+            <IconContext.Provider value={{ className: `react-icons ${!data.unseen ?'react-green-icon':''}` }}>
               <TiTick />
             </IconContext.Provider>
           </span>
